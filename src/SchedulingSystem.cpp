@@ -314,6 +314,39 @@ void SchedulingSystem::dispatchCpuIfIdle()
   }
 }
 
+/** @brief Check if process is finished
+ *
+ * The method checks if the current running process on the
+ * CPU has finished. First it checks if the cpu is idle then
+ * it checks if the process's time used is equal or exceeds its
+ * service time. If the process is finished then it has its endTime
+ * marked and its done status changed to true. Finnally the CPU is
+ * set to IDLE so that a new process can be dispatched.
+ */
+void SchedulingSystem::checkProcessFinished()
+{
+  // check if CPU is Idle
+  if (isCpuIdle())
+  {
+    return;
+  }
+  else
+  {
+    // check if process is finished according to time used
+    if (process[cpu].usedTime >= process[cpu].serviceTime)
+    {
+      // record the end time for process
+      process[cpu].endTime = getSystemTime();
+      // set process to be done
+      process[cpu].done = true;
+      // set CPU to be idle
+      cpu = IDLE;
+    }
+    // return if process is not finished
+    return;
+  }
+}
+
 /**
  * @brief load process table from file
  *
