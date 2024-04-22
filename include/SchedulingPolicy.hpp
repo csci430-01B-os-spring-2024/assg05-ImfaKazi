@@ -1,9 +1,9 @@
 /** @file SchedulingPolicy.hpp
  * @brief SchedulingPolicy class API/Includes
  *
- * @author Student Name
- * @note   cwid: 123456
- * @date   Fall 2019
+ * @author Ethan Jansak-Noble
+ * @note   cwid: 50290824
+ * @date   Spring 2024
  * @note   ide:  g++ 8.2.0 / GNU Make 4.2.1
  *
  * Header include file for our SchedulingPolicy class.  The

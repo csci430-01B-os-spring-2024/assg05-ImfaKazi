@@ -182,6 +182,7 @@ public:
   void checkProcessPreemption();
   void updateProcessStatistics();
   void runSimulation(bool verbose = false);
+  void dispatchCpuIfIdle();
 };
 
 #endif // SCHEDULING_SYSTEM_HPP

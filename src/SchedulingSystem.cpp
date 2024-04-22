@@ -293,6 +293,27 @@ bool SchedulingSystem::allProcessesDone() const
   return true;
 }
 
+/** @brief Dispatch CPU if idle
+ *
+ * If the CPU is idle then the method calls upon the policy
+ * object to make dispatch decision returning the Pid of the
+ * dispatched process according to the policy. This dispatched
+ * process is then set as the running process in the CPU,
+ * additionally if the process is just being started then the
+ * startTime is updated to the current system time.
+ */
+void SchedulingSystem::dispatchCpuIfIdle()
+{
+  if (isCpuIdle())
+  {
+    cpu = policy->dispatch();
+  }
+  if (process[cpu].startTime == NOT_STARTED)
+  {
+    process[cpu].startTime = getSystemTime();
+  }
+}
+
 /**
  * @brief load process table from file
  *
