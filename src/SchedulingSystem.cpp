@@ -722,10 +722,10 @@ void SchedulingSystem::runSimulation(bool verbose)
   // to make scheduling decisions.  We keep running the simulation until
   // all processes in the process table are done
   string schedule = "";
-  /*
+
   while (not allProcessesDone())
   {
-    //cout << "runSimulation()> systemTime: " << systemTime << endl;
+    // cout << "runSimulation()> systemTime: " << systemTime << endl;
 
     // check for new arrivals at this time step so can notify
     // our scheduling policy to add new processs they are managing
@@ -748,7 +748,6 @@ void SchedulingSystem::runSimulation(bool verbose)
     // is up to date for scheduling policies to use
     updateProcessStatistics();
   }
-  */
 
   // Display scheduling simulation results if asked too
   if (verbose)
