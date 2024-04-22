@@ -272,6 +272,27 @@ string SchedulingSystem::getRunningProcessName() const
   }
 }
 
+/** @brief Are all processes done
+ *
+ * Checks all the processes in the process table checking if
+ * ever process is done, if any process is not done then the
+ * method returns false, otherwise the method returns true.
+ *
+ * @return true if all processes are done, return false if any
+ *  process is not done.
+ */
+bool SchedulingSystem::allProcessesDone() const
+{
+  for (int i = 0; i < getNumProcesses(); i++)
+  {
+    if (process[i].done == false)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
 /**
  * @brief load process table from file
  *
