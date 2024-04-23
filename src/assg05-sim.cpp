@@ -10,10 +10,10 @@
  * Simulator, used to perform system tests.
  */
 #include "FCFSSchedulingPolicy.hpp"
-//#include "HRRNSchedulingPolicy.hpp"
-//#include "SPNSchedulingPolicy.hpp"
-//#include "SRTSchedulingPolicy.hpp"
-//#include "RRSchedulingPolicy.hpp"
+#include "RRSchedulingPolicy.hpp"
+// #include "HRRNSchedulingPolicy.hpp"
+// #include "SPNSchedulingPolicy.hpp"
+// #include "SRTSchedulingPolicy.hpp"
 #include "SchedulingSystem.hpp"
 #include "SimulatorException.hpp"
 #include <iostream>
@@ -100,6 +100,10 @@ int main(int argc, char** argv)
   {
     policy = new FCFSSchedulingPolicy();
   }
+  else if (policyName == "RR")
+  {
+    policy = new RRSchedulingPolicy(quantum);
+  }
   /*  example of adding additional policies to the simulation
   else if (policyName == "HRRN")
   {
@@ -113,11 +117,8 @@ int main(int argc, char** argv)
   {
     policy = new SRTSchedulingPolicy();
   }
-  else if (policyName == "RR")
-  {
-    policy = new RRSchedulingPolicy(quantum);
-  }
   */
+
   else // unknwon/invalid scheduling policy specified
   {
     cerr << "Error: Unknown scheduling policy: " << policyName << endl;

@@ -42,9 +42,17 @@ private:
   /// @brief The ready queue for the RR policy, keeps track of
   ///   how processes are ordered in the queue for dispatching.
   queue<Pid> readyQueue;
+  /// @brief The clock is used to keep track of how long the current
+  ///   time quantum will last.
+  int quantumClock;
+  /// @brief The time slice quantum of the current simulation.
+  int quantum;
+  /// @brief If the currently running process is preempted it should
+  ///  be added back to the ready queue, this acts as temp variable.
+  Pid runningPid;
 
 public:
-  RRSchedulingPolicy();
+  RRSchedulingPolicy(int quantum);
 
   // virtual function, concrete subclasses can override if needed
   virtual ~RRSchedulingPolicy();

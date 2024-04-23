@@ -29,10 +29,12 @@ using namespace std;
  * system instance we are associated with, so we can call the paging system to
  * get needed information to make replacment decisions.
  */
-RRSchedulingPolicy::RRSchedulingPolicy()
+RRSchedulingPolicy::RRSchedulingPolicy(int simQuantum)
   : SchedulingPolicy()
 {
   sys = NULL;
+  // set the quantum for the current simulation
+  quantum = simQuantum;
   resetPolicy();
 }
 
@@ -62,9 +64,10 @@ void RRSchedulingPolicy::newProcess(Pid pid)
  * When the cpu is idle, the scheduling simulator calls this
  * method of the policy object to select which process to
  * dispatch and schedule and run next on the cpu.  The
- * First Come First Serve (FCFS) policy simply selects the
- * process that has been waiting the longest, and thus was the
- * first to "come" into the system.
+ * Round Robin (RR) policy simply selects the
+ * process that has been waiting the longest in the ready
+ * queue giving it a time quantum, after a process has been
+ * run to completion or been preempted by the time quantum.
  *
  * @returns pid Returns the process identifier of the process
  *   we select to run next.
@@ -80,9 +83,13 @@ Pid RRSchedulingPolicy::dispatch()
   // otherwise pop the front item and return it
   else
   {
-    int pid = readyQueue.front();
+    runningPid = readyQueue.front();
     readyQueue.pop();
-    return pid;
+    // set the quantum clock to the simulation quantum
+    quantumClock = quantum;
+    // decrease clock as the process runs for one cycle after being dispatched
+    quantumClock -= 1;
+    return runningPid;
   }
 }
 
@@ -90,21 +97,41 @@ Pid RRSchedulingPolicy::dispatch()
  * @brief preemption
  *
  * Determine if current running processes needs to be preempted.
- * RR is a preemptive(at time quantum) policy,
+ * RR is a preemptive(at time quantum) policy, so when the quantum
+ * clock reaches zero the process is preempted. This means every time
+ * a cpu cycle is simulated this method is called meaning the clock is
+ * decremented by one.
  *
- * @returns bool Always returns false to indicate FCFS never
- *   preempts.
+ * @returns bool returns true when the time quantum clock has reached
+ *  zero
  */
 bool RRSchedulingPolicy::preempt()
 {
-  return false;
+  // if the quantum clock reaches zero preempt
+  if (quantumClock == 0)
+  {
+    // push the currently running process onto the queue as it hasn't
+    // finished running
+    readyQueue.push(this->runningPid);
+    // no process is running on the CPU so runningPid is set to idle
+    runningPid = IDLE;
+    return true;
+  }
+  else
+  {
+    // decrease the time quantum to simulate a CPU cycle
+    quantumClock -= 1;
+    // should not be preempted as time slice is not used
+    return false;
+  }
 }
 
 /** reset policy
  * Reset or initialize the scheduling policty to an initial state,
  * in preparation for beginning a simulation.  For RR this means
  * we want to clear out the ready queue and make sure it is
- * empty to begin with.
+ * empty to begin with, set the proper quantum for the simulation,
+ * and set the initial value for the quantumClock.
  */
 void RRSchedulingPolicy::resetPolicy()
 {
@@ -113,4 +140,6 @@ void RRSchedulingPolicy::resetPolicy()
   // with an empty one.
   queue<Pid> empty;
   swap(readyQueue, empty);
+  // set the clock to innitially be the same time as the quantum
+  quantumClock = quantum;
 }

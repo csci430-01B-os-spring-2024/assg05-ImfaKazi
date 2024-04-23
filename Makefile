@@ -4,8 +4,8 @@ PROJECT_NAME=assg05
 assg_src = SchedulingSystem.cpp \
 	   SchedulingPolicy.cpp \
 	   FCFSSchedulingPolicy.cpp \
-	   # HRRNSchedulingPolicy.cpp \
 	   RRSchedulingPolicy.cpp
+		 # HRRNSchedulingPolicy.cpp
 	   # SPNSchedulingPolicy.cpp
 	   # SRTSchedulingPolicy.cpp
 
