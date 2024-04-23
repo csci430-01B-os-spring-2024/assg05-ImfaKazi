@@ -14,15 +14,6 @@ tests="
 FCFS process-table-01 1
 FCFS process-table-02 1
 FCFS process-table-03 1
-HRRN process-table-01 1
-HRRN process-table-02 1
-HRRN process-table-03 1
-SPN process-table-01 1
-SPN process-table-02 1
-SPN process-table-03 1
-SRT process-table-01 1
-SRT process-table-02 1
-SRT process-table-03 1
 RR process-table-01 1
 RR process-table-01 4
 RR process-table-02 1
